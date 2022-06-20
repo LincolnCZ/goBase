@@ -82,6 +82,8 @@ func main() {
 	fmt.Printf("%#v\n", s6) //&main.Point{X:2, Y:2}
 
 	//4.结构体嵌套
+	//
+
 	//具名嵌套结构体赋值方式、调用其嵌套struct的成员、函数
 	s7 := Circle{
 		Radius: 1,

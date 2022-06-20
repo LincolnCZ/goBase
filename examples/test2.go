@@ -2,47 +2,56 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
+	"reflect"
 )
 
-func main() {
-	var closing = make(chan struct{})
-	var closed = make(chan struct{})
+func DumpMethodSet(i interface{}) {
+	v := reflect.TypeOf(i)
+	elemTyp := v.Elem()
 
-	go func() {
-		// 模拟业务处理
-		for {
-			select {
-			case <-closing:
-				return
-			default:
-				// ....... 业务计算
-				time.Sleep(100 * time.Millisecond)
-			}
-		}
-	}()
-
-	// 处理CTRL+C等中断信号
-	termChan := make(chan os.Signal)
-	signal.Notify(termChan, syscall.SIGINT, syscall.SIGTERM)
-	<-termChan
-
-	close(closing)
-	// 执行退出之前的清理动作
-	go doCleanup(closed)
-
-	select {
-	case <-closed:
-	case <-time.After(time.Second):
-		fmt.Println("清理超时，不等了")
+	n := elemTyp.NumMethod()
+	if n == 0 {
+		fmt.Printf("%s's method set is empty!\n", elemTyp)
+		return
 	}
-	fmt.Println("优雅退出")
+
+	fmt.Printf("%s's method set:\n", elemTyp)
+	for j := 0; j < n; j++ {
+		fmt.Println("-", elemTyp.Method(j).Name)
+	}
+	fmt.Printf("\n")
 }
 
-func doCleanup(closed chan struct{}) {
-	time.Sleep((time.Minute))
-	close(closed)
+type Interface interface {
+	M1() float64
+	M2() float64
+}
+
+type Test struct{}
+
+func (t Test) M1() float64  { return 0.0 }
+func (t *Test) M2() float64 { return 0.0 }
+
+type Shape interface {
+	M1() float64 //计算面积
+	M2() float64 //计算周长
+}
+
+type R struct {
+}
+
+func (r *R) M1() float64 { //面积
+	return 0.0
+}
+
+func (r *R) M2() float64 { //周长
+	return 0.0
+}
+
+func main() {
+	var t R
+	var pt *R
+	DumpMethodSet(&t)
+	DumpMethodSet(&pt)
+	//DumpMethodSet((*Interface)(nil))
 }
