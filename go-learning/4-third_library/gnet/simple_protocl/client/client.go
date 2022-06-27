@@ -12,7 +12,7 @@ import (
 
 	"github.com/panjf2000/gnet/v2/pkg/logging"
 
-	"goBase/go-learning/5-third_library/gnet/simple_protocl/protocol"
+	"goBase/go-learning/4-third_library/gnet/simple_protocl/protocol"
 )
 
 func logErr(err error) {
