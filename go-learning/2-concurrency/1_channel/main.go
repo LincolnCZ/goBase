@@ -54,7 +54,7 @@ func main() {
 
 	//2. channel的send、receive、close
 	//buffered channel处理:
-	//|        |  nil    | empty             |full               |not full & <br>not empty|closed                   |
+	//|        |  nil    | empty             |full               |not full && not empty   |closed                   |
 	//| -----  | -----   | -----             | -----             | -----                  | -----                   |
 	//|receive |  block  |  block            |read value         |read value              |返回未读的元素，读完后返回零值|
 	//|send    |  block  | write value       |block              |write value             |panic                    |
@@ -63,6 +63,8 @@ func main() {
 	//unbuffered channel处理：
 	//  • sender端向channel中send一个数据，然后阻塞，直到receiver端将此数据receive
 	//  • receiver端一直阻塞，直到sender端向channel发送了一个数据
+	//  • 关闭channel后，recv操作将获取所有已经发送的值，直到通道为空；这时任何接收操作会立即完成，同时获取到一个通道元素类型对应的零值以及一个状态码false
+	//    • 利用这个特性，通过关闭 channel 实现广播操作，因为在一个已关闭的 channel 接收数据会立刻返回，并且会得到一个零值。
 
 	//3. select 多路复用
 	ch1 := make(chan int)
