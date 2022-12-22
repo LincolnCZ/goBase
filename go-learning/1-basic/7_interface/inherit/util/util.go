@@ -5,8 +5,8 @@ import (
 	"reflect"
 )
 
-// DumpMethodSet 用于输出一个非接口类型的method set
-//注意：只能获取方法为大写字母开头的
+// DumpMethodSet 用于输出一个非接口类型的 method set
+//    注意：只能获取方法为大写字母开头的
 func DumpMethodSet(i interface{}) {
 	dynTyp := reflect.TypeOf(i)
 

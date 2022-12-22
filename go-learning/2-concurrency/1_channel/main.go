@@ -41,9 +41,9 @@ func main() {
 	//   引用同一份数据结构。和其他引用类型一样，通道的零值是 nil。
 	//Go 内建的函数 close、cap、len 都可以操作 chan 类型：close 会把 chan 关闭掉，cap 返回 chan 的容量，len 返回 chan 中缓存的还未被取走的元素数量。
 
-	//创建和初始化unbuffered channel
+	//创建和初始化 unbuffered channel
 	ch := make(chan string)
-	//创建和初始化buffered channel
+	//创建和初始化 buffered channel
 	//ch := make(chan string, 4)
 
 	//goroutine
@@ -52,18 +52,18 @@ func main() {
 
 	time.Sleep(1e9)
 
-	//2. channel的send、receive、close
-	//buffered channel处理:
+	//2. channel 的 send、receive、close
+	//buffered channel 处理:
 	//|        |  nil    | empty             |full               |not full && not empty   |closed                   |
 	//| -----  | -----   | -----             | -----             | -----                  | -----                   |
-	//|receive |  block  |  block            |read value         |read value              |返回未读的元素，读完后返回零值|
+	//|receive |  block  |  block            |read value         |read value              |返回未读的元素，读完后返回零值 |
 	//|send    |  block  | write value       |block              |write value             |panic                    |
-	//|close   |  panic  | closed，没有未读元素|closed，保留未读的元素|closed，保留未读的元素     |panic                    |
+	//|close   |  panic  | closed，没有未读元素 |closed，保留未读的元素|closed，保留未读的元素     |panic                    |
 	//
-	//unbuffered channel处理：
-	//  • sender端向channel中send一个数据，然后阻塞，直到receiver端将此数据receive
-	//  • receiver端一直阻塞，直到sender端向channel发送了一个数据
-	//  • 关闭channel后，recv操作将获取所有已经发送的值，直到通道为空；这时任何接收操作会立即完成，同时获取到一个通道元素类型对应的零值以及一个状态码false
+	//unbuffered channel 处理：
+	//  • sender 端向 channel 中 send 一个数据，然后阻塞，直到 receiver 端将此数据 receive
+	//  • receiver 端一直阻塞，直到 sender 端向 channel 发送了一个数据
+	//  • 关闭 channel 后，recv 操作将获取所有已经发送的值，直到通道为空；这时任何接收操作会立即完成，同时获取到一个通道元素类型对应的零值以及一个状态码 false
 	//    • 利用这个特性，通过关闭 channel 实现广播操作，因为在一个已关闭的 channel 接收数据会立刻返回，并且会得到一个零值。
 
 	//3. select 多路复用

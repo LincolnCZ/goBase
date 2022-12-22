@@ -27,7 +27,7 @@ type S2 struct {
 }
 
 func structEmbedBothExample() {
-	//1. 使用嵌套的struct 和 interface
+	//1. 使用嵌套的 struct 和 interface
 	r := strings.NewReader("hello, go")
 	s := S1{
 		M:      &M{num: 17},
@@ -40,7 +40,7 @@ func structEmbedBothExample() {
 	s.Add(5)
 	fmt.Println(s.num)
 
-	//2.结构体类型的方法集合，包含嵌入的struct和interface的方法集合。
+	//2.结构体类型的方法集合，包含嵌入的 struct 和 interface 的方法集合。
 	var s1 S1
 	util.DumpMethodSet(s1)
 	//main.S's method set:

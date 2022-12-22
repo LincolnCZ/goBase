@@ -27,7 +27,7 @@ func handleFile(filenames []string) int64 {
 		}(f) // 使用匿名函数，避免捕获迭代变量 f
 	}
 
-	// close和wait的操作 必须和main goroutine并行执行
+	// close 和 wait 的操作 必须和 main goroutine 并行执行
 	go func() {
 		wg.Wait()
 		close(costs)
@@ -41,9 +41,9 @@ func handleFile(filenames []string) int64 {
 	return total
 }
 
-////错误写法1：如果我们将wg.Wait()操作放在 range循环之前的main goroutine 中。注意，我们使用的costs通道是无缓冲的，
-////   因此所有的worker goroutine都会阻塞在 costs <- cost_time，产生死锁。
-////错误做法1：将等待操作放在 range 循环之前的main goroutine 中，将会产生死锁
+////错误写法1：将等待操作放在 range 循环之前的 main goroutine 中，将会产生死锁。
+////   如果我们将 wg.Wait() 操作放在 range 循环之前的 main goroutine 中。注意，我们使用的 costs 通道是无缓冲的，
+////   因此所有的 worker goroutine 都会阻塞在 costs <- cost_time，产生死锁。
 //func handleFile(filenames []string) int64 {
 //	...
 //	wg.Wait()

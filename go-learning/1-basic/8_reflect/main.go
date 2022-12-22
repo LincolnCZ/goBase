@@ -16,22 +16,22 @@ import (
 type UserId int
 
 func main() {
-	//1.TypeOf返回的是reflect.Type类型
-	//1.1 查看TypeOf返回
+	//1.TypeOf 返回的是 reflect.Type 类型
+	//1.1 查看 TypeOf 返回
 	//   函数 reflect.TypeOf 接受任意的 interface{} 类型, 并以 reflect.Type 形式返回其动态类型
 	var a int = 64
-	t1 := reflect.TypeOf(a)            //注意 TypeOf的参数类型是 interface{}
+	t1 := reflect.TypeOf(a)            //注意 TypeOf 的参数类型是 interface{}
 	fmt.Printf("type:%v\n", t1.Name()) //type:int
 
-	//1.2 区分Type返回值的Name和Kind
-	//   在反射中关于类型还划分为两种：类型（Type）和种类（Kind）。因为在Go语言中我们可以使用type关键字构造很多自定义类型，而种类（Kind）
+	//1.2 区分 Type 返回值的 Name 和 Kind
+	//   在反射中关于类型还划分为两种：类型（Type）和种类（Kind）。因为在 Go 语言中我们可以使用 type 关键字构造很多自定义类型，而种类（Kind）
 	//   就是指底层的类型，但在反射中，当需要区分指针、结构体等大品种的类型时，就会用到种类（Kind）
 	var id UserId = 10
 	t2 := reflect.TypeOf(id)
 	fmt.Printf("type:%v kind:%v\n", t2.Name(), t2.Kind()) //type:UserId kind:int
 
-	//2.ValueOf返回的是reflect.Value类型
-	//2.1 查看ValueOf返回
+	//2.ValueOf 返回的是 reflect.Value 类型
+	//2.1 查看 ValueOf 返回
 	//   reflect.ValueOf() 返回的是 reflect.Value 类型，其中包含了原始值的值信息。reflect.Value 与原始值之间可以互相转换。
 	//reflect.Value类型提供的获取原始值的方法如下：
 	//• Interface() interface {} 将值以 interface{} 类型返回，可以通过类型断言转换为指定类型
@@ -45,7 +45,7 @@ func main() {
 	v := reflect.ValueOf(n1)
 	fmt.Println(v.Int())
 
-	//2.2 修改ValueOf返回
+	//2.2 修改 ValueOf 返回
 	//   如果想要在函数中通过反射修改变量的值，需要注意函数参数传递的是值拷贝，必须传递变量地址才能修改变量值。而反射中使用专有的 Elem() 方法来获取指针对应的值。
 	var n2 int = 100
 	v2 := reflect.ValueOf(&n2)
